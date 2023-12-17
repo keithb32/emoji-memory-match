@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js" integrity="sha512-+k1pnlgt4F1H8L7t3z95o3/KO+o78INEcXTbnoJQ/F2VqDVhWoaiVml/OEHv9HsVgxUaVW+IbiZPUJQfF/YxZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="index.js" defer></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-teal flex flex-col">
+  <h1 class="text-center text-3xl my-5">Emoji Memory Matching</h1>
+  <hr class="border-gray-400">
+
+  <div id="startGameContainer" class="mt-5 space-y-5 lg:flex lg:flex-row lg:space-y-0 flex-grow-0 flex-shrink-0">
+    <div class="text-center mx-auto space-y-4">
+      <p class="text-2xl font-bold">Welcome to Emoji Memory Matching!</p>
+      <p class="text-lg">Select the dimensions of your board to proceed.</p>
+
+      <form id="startGameForm" class="space-x-4 space-y-4">
+        <label class="text-lg">Dimensions</label>:
+        <input type="number" id="dimensions" name="dimensions" min="2" max="5" value="2" class="bg-gray-50 w-1/8 text-center border border-black rounded-lg shadow">
+        <button type="submit" id="startGameButton" class="bg-gray-800 text-white px-2 py-1 rounded-lg">Start game</button>
+      </form>
+    </div>
+
+    <table id="placeholderTable" class="mx-auto">
+      <tr>
+        <td class="flipcard-container"> 
+          <div class="flipcard">
+            <div class="card-face card-front">❔</div>
+            <div class="card-face card-back"></div>
+          </div>
+        </td>
+        <td class="flipcard-container"> 
+          <div class="flipcard">
+            <div class="card-face card-front">❔</div>
+            <div class="card-face card-back"></div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="flipcard-container"> 
+          <div class="flipcard">
+            <div class="card-face card-front">❔</div>
+            <div class="card-face card-back"></div>
+          </div>
+        </td>
+        <td class="flipcard-container"> 
+          <div class="flipcard">
+            <div class="card-face card-front">❔</div>
+            <div class="card-face card-back"></div>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="mt-5 hidden">
+    <table id="emojiGrid" class="mx-auto my-auto">
+      <tr>
+        <td class="flipcard-container"> 
+          <div class="flipcard">
+            <div class="card-face card-front">❔</div>
+            <div class="card-face card-back">😀</div>
+          </div>
+        </td>
+        <td class="">2</td>
+        <td class="">3</td>
+      </tr>
+      <tr>
+        <td class="">4</td>
+        <td class="">5</td>
+        <td class="">6</td>
+      </tr>
+      <tr>
+        <td class="">7</td>
+        <td class="">8</td>
+        <td class="">9</td>
+      </tr>
+    </table>
+  </div>
+
+</body>
+</html>
