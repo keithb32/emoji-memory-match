@@ -1,85 +1,176 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js" integrity="sha512-+k1pnlgt4F1H8L7t3z95o3/KO+o78INEcXTbnoJQ/F2VqDVhWoaiVml/OEHv9HsVgxUaVW+IbiZPUJQfF/YxZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="index.js" defer></script>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body class="bg-teal flex flex-col">
-  <h1 class="text-center text-3xl my-5">Emoji Memory Matching</h1>
-  <hr class="border-gray-400">
-
-  <div id="startGameContainer" class="mt-5 space-y-5 lg:flex lg:flex-row lg:space-y-0 flex-grow-0 flex-shrink-0">
-    <div class="text-center mx-auto space-y-4">
-      <p class="text-2xl font-bold">Welcome to Emoji Memory Matching!</p>
-      <p class="text-lg">Select the dimensions of your board to proceed.</p>
-
-      <form id="startGameForm" class="space-x-4 space-y-4">
-        <label class="text-lg">Dimensions</label>:
-        <input type="number" id="dimensions" name="dimensions" min="2" max="5" value="2" class="bg-gray-50 w-1/8 text-center border border-black rounded-lg shadow">
-        <button type="submit" id="startGameButton" class="bg-gray-800 text-white px-2 py-1 rounded-lg">Start game</button>
-      </form>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Emoji Memory Match</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js"
+      integrity="sha512-+k1pnlgt4F1H8L7t3z95o3/KO+o78INEcXTbnoJQ/F2VqDVhWoaiVml/OEHv9HsVgxUaVW+IbiZPUJQfF/YxZw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script type="module" src="modules/utils.js" defer></script>
+    <script type="module" src="modules/game.js" defer></script>
+    <script type="module" src="classes/GameState.js" defer></script>
+    <script type="module" src="classes/GameSettings.js" defer></script>
+    <script type="module" src="index.js" defer></script>
+    <link rel="stylesheet" href="styles/styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  </head>
+  <body>
+    <!-- Start Menu -->
+    <div id="startScreen" class="flex flex-col">
+      <nav>
+        <!-- Settings icon-->
+        <i id="cogIcon" class="fa fa-cog m-2 p-2 text-3xl" aria-hidden="true"></i>
+        <!-- Settings Modal -->
+        <div id="settingsModal" class="modal hidden py-10">
+          <div class="modal-content space-y-4">
+            <i id="closeSettingsIcon" class="fa fa-times float-end text-2xl" aria-hidden="true"></i>
+            <h1 class="text-center text-2xl font-semibold">Settings</h1>
+            <form id="settingsForm" class="grid grid-cols-2 gap-x-0 gap-y-4 text-center">
+              <div>
+                <label class="text-lg font-semibold">Limit mismatches</label>
+                <p class="text-sm text-center">If enabled, selecting too many mismatched pairs will end the game.</p>
+              </div>
+              <div class="settings-input">
+                <div class="space-x-2">
+                  <span>
+                    <input type="radio" id="enableLimitedAttempts" name="limitedAttempts" value="true" />
+                    <label for="enableLimitedAttempts">Yes</label>
+                  </span>
+                  <span>
+                    <input type="radio" id="disableLimitedAttempts" name="limitedAttempts" value="false" checked />
+                    <label for="disableLimitedAttempts">No</label>
+                  </span>
+                </div>
+              </div>
+              <div>
+                <label class="text-lg font-semibold">Number of mismatches</label>
+                <p class="text-sm text-center">The number of mismatches allowed per game.</p>
+              </div>
+              <div class="settings-input">
+                <input
+                  type="number"
+                  id="numAttempts"
+                  name="numAttempts"
+                  min="1"
+                  class="bg-gray-50 text-center border border-gray-400 py-0.5 pr-1 rounded-lg shadow-lg disabled:bg-gray-200"
+                />
+              </div>
+              <div>
+                <label class="text-lg font-semibold">Memorization time</label>
+                <p class="text-sm text-center">The number of milliseconds before a revealed card flips over.</p>
+              </div>
+              <div>
+                <input
+                  type="number"
+                  id="memorizationTime"
+                  name="memorizationTime"
+                  min="1000"
+                  step="100"
+                  class="bg-gray-50 text-center border border-gray-400 py-0.5 pr-1 rounded-lg shadow-lg"
+                />
+              </div>
+              <!-- Button container -->
+              <div class="col-span-2 ml-auto">
+                <input
+                  type="reset"
+                  id="resetSettingsBtn"
+                  value="Reset"
+                  class="bg-gray-400 border border-gray-400 text-white px-4 py-1 rounded-lg shadow-lg ring-gray-400 hover:ring-1"
+                />
+                <input
+                  type="submit"
+                  id="saveSettingsBtn"
+                  value="Save"
+                  class="bg-gray-800 text-white px-4 py-1 rounded-lg shadow-lg border border-gray-800 ring-gray-800 hover:ring-1"
+                />
+              </div>
+            </form>
+          </div>
+        </div>
+      </nav>
+      <div class="w-fit mx-auto mt-24 px-4">
+        <div class="space-y-4">
+          <p class="text-center text-2xl font-bold">Welcome to Emoji Memory Match!</p>
+          <p class="text-center text-lg pb-1">Select the dimensions of your board to proceed.</p>
+          <form id="startForm" class="grid grid-cols-2 gap-y-3">
+            <div>
+              <label class="text-lg">Rows</label>
+            </div>
+            <div>
+              <input
+                type="number"
+                id="numRows"
+                name="numRows"
+                min="2"
+                step="1"
+                class="bg-gray-50 text-center border border-gray-400 p-1 rounded-lg shadow-lg"
+              />
+            </div>
+            <div><label class="text-lg">Columns</label></div>
+            <div>
+              <input
+                type="number"
+                id="numCols"
+                name="numCols"
+                min="2"
+                step="1"
+                class="bg-gray-50 text-center border border-gray-400 p-1 rounded-lg shadow-lg"
+              />
+            </div>
+            <button
+              type="submit"
+              id="startBtn"
+              class="bg-gray-800 col-span-2 w-1/2 mx-auto mt-5 text-white px-2 py-1 rounded-lg ring-gray-800 hover:ring-1"
+            >
+              Start game
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
 
-    <table id="placeholderTable" class="mx-auto">
-      <tr>
-        <td class="flipcard-container"> 
-          <div class="flipcard">
-            <div class="card-face card-front">❔</div>
-            <div class="card-face card-back"></div>
+    <!-- Game Screen -->
+    <div id="gameScreen" class="hidden h-full w-full p-8">
+      <nav class="flex flex-row justify-between">
+        <i id="backToStartBtn" class="fa fa-long-arrow-left text-xl font-semibold" aria-hidden="true">
+          <span>&nbsp; Back to start</span>
+        </i>
+        <i id="newGameBtn" class="fa fa-plus-square text-xl font-semibold ms-auto" aria-hidden="true">
+          <span class="float-left">New Game &nbsp;</span>
+        </i>
+      </nav>
+      <main class="h-4/5">
+        <div id="gameContainer" class="flex flex-col justify-center fade-in">
+          <div id="remainingTriesContainer" class="text-lg mt-8 ml-8">
+            Remaining misses: <span id="remainingTries"></span>
           </div>
-        </td>
-        <td class="flipcard-container"> 
-          <div class="flipcard">
-            <div class="card-face card-front">❔</div>
-            <div class="card-face card-back"></div>
+          <div id="gridContainer" class="mx-auto p-8">
+            <table id="board"></table>
           </div>
-        </td>
-      </tr>
-      <tr>
-        <td class="flipcard-container"> 
-          <div class="flipcard">
-            <div class="card-face card-front">❔</div>
-            <div class="card-face card-back"></div>
-          </div>
-        </td>
-        <td class="flipcard-container"> 
-          <div class="flipcard">
-            <div class="card-face card-front">❔</div>
-            <div class="card-face card-back"></div>
-          </div>
-        </td>
-      </tr>
-    </table>
-  </div>
+        </div>
 
-  <div class="mt-5 hidden">
-    <table id="emojiGrid" class="mx-auto my-auto">
-      <tr>
-        <td class="flipcard-container"> 
-          <div class="flipcard">
-            <div class="card-face card-front">❔</div>
-            <div class="card-face card-back">😀</div>
+        <div id="resultsContainer" class="hidden h-full text-center p-8 md:p-24 fade-in">
+          <div id="winContainer" class="space-y-3">
+            <p class="font-light text-3xl">Congratulations! You won! 🎉</p>
+            <p class="font-light">
+              To go back to the start menu, click the back to start button. To start a new game with the same
+              dimensions, click the new game button.
+            </p>
           </div>
-        </td>
-        <td class="">2</td>
-        <td class="">3</td>
-      </tr>
-      <tr>
-        <td class="">4</td>
-        <td class="">5</td>
-        <td class="">6</td>
-      </tr>
-      <tr>
-        <td class="">7</td>
-        <td class="">8</td>
-        <td class="">9</td>
-      </tr>
-    </table>
-  </div>
-
-</body>
+          <div id="lossContainer" class="space-y-3">
+            <p class="font-light text-3xl">Sorry! You lost ☹️</p>
+            <p class="font-light">
+              To go back to the start menu, click the back to start button. To start a new game with the same
+              dimensions, click the new game button.
+            </p>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
 </html>
