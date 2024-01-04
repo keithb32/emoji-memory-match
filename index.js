@@ -1,77 +1,122 @@
-const EMOJIS = getEmojis();
+import { game, clearGame, showGame, clearStart, showStart } from "./modules/game.js";
+import GameState from "./classes/GameState.js";
+import GameSettings from "./classes/GameSettings.js";
 
-// $(".flipcard").on("click", ({currentTarget}) => {
-//     $(currentTarget).toggleClass("is-flipped");
-// })
+var state = new GameState();
+var settings = new GameSettings();
 
-$("#dimensions").on("input", ({currentTarget}) => {
-    let dimensions = $(currentTarget).val();
+$(document).ready(() => {
+  let numRows = JSON.parse(localStorage.getItem("numRows")) || 4;
+  let numCols = JSON.parse(localStorage.getItem("numCols")) || 4;
+  let limitAttempts = JSON.parse(localStorage.getItem("limitAttempts")) || false;
+  let numAttempts = JSON.parse(localStorage.getItem("numAttempts")) || -1;
+  let memorizationTime = JSON.parse(localStorage.getItem("memorizationTime")) || 1500;
 
-    if (dimensions > 5){
-        $(currentTarget).val(5);
-        dimensions = 5;
-    }
+  $("#numRows").val(numRows);
+  $("#numCols").val(numCols);
 
-    $("#placeholderTable").empty();
-    for (let i = 0; i < dimensions; i++){
-        let row = $("<tr>").appendTo("#placeholderTable")
-        for (let j = 0; j < dimensions; j++){
-            row.append(`
-                <td class="flipcard-container"> 
-                    <div class="flipcard">
-                        <div class="card-face card-front">❔</div>
-                        <div class="card-face card-back"></div>
-                    </div>
-                </td>
-          `)
-        }
-        row.append("</tr>");
-    }
-})
+  if (limitAttempts) {
+    $("#enableLimitedAttempts").prop("checked", true);
+    $("#numAttempts").val(numAttempts || 10);
+  } else {
+    $("#disableLimitedAttempts").prop("checked", true);
+    $("#numAttempts").val("").prop("disabled", true);
+  }
 
-$("#startGameForm").on("submit", () => {
-    let dim = $("#dimensions").val();
-    dim *= dim;
-    $("#startGameContainer").empty();
-    alert(getRandomEmojis(dim));    
-})
+  $("#memorizationTime").val(memorizationTime);
 
-// ------ HELPER METHODS ------- //
-function getEmojis(){
-    let emojis = []
+  settings.setDimensions({ numRows, numCols });
+  settings.setOptions({ limitAttempts, numAttempts, memorizationTime });
+});
 
-    for (let i = 0x1F600; i <= 0x1F64F; i++) {
-        emojis.push(String.fromCodePoint(i));
-    }
-    
-    for (let i = 0x1F300; i <= 0x1F5FF; i++) {
-        emojis.push(String.fromCodePoint(i));
-    }
-    
-    for (let i = 0x1F680; i <= 0x1F6FF; i++) {
-        emojis.push(String.fromCodePoint(i));
-    }
-    
-    for (let i = 0x2600; i <= 0x26FF; i++) {
-        emojis.push(String.fromCodePoint(i));
-    }
+$("#numRows").on("change", ({ currentTarget }) => {
+  let numRows = parseInt($(currentTarget).val());
+  if (numRows < 1) {
+    numRows = 1;
+    $(currentTarget).val(1);
+  }
+  settings.setDimensions({ numRows });
+});
 
-    return emojis;
-}
+$("#numCols").on("change", ({ currentTarget }) => {
+  let numCols = parseInt($(currentTarget).val());
+  if (numCols < 1) {
+    numCols = 1;
+    $(currentTarget).val(1);
+  }
+  settings.setDimensions({ numCols });
+});
 
-function getRandomEmojis(numEmojis){
-    const randomIndices = [];
+$("#cogIcon, #closeSettingsIcon").on("click", () => {
+  $("#settingsModal").toggleClass("hidden");
+});
 
-    while (randomIndices.length < numEmojis){
-        const randomIndex = Math.floor(Math.random() * EMOJIS.length);
+$("input[name='limitedAttempts']").on("change", () => {
+  let enabled = JSON.parse($("input[name='limitedAttempts']:checked").val());
+  if (enabled) {
+    $("#numAttempts").prop("disabled", false);
+    $("#numAttempts").val(10);
+    settings.setOptions({ limitAttempts: true, numAttempts: 10 });
+  } else {
+    $("#numAttempts").prop("disabled", true);
+    $("#numAttempts").val("");
+    settings.setOptions({ limitAttempts: false, numAttempts: -1 });
+  }
+});
 
-        // Avoid duplicates
-        if (!randomIndices.includes(randomIndex)) {
-          randomIndices.push(randomIndex);
-        }
-    }
+$("#numAttempts").on("change", ({ currentTarget }) => {
+  let numAttempts = parseInt($(currentTarget).val());
+  if (numAttempts < 1) {
+    numAttempts = 1;
+    $(currentTarget).val(1);
+  }
+  settings.setOptions({ numAttempts });
+});
 
-    // Create the subset based on the randomly generated indices
-    const randomEmojis = randomIndices.map(index => EMOJIS[index]);
-    return randomEmojis;
-}
+$("#memorizationTime").on("change", ({ currentTarget }) => {
+  let memorizationTime = parseInt($(currentTarget).val());
+  if (memorizationTime < 1000) {
+    memorizationTime = 1000;
+    $(currentTarget).val(1000);
+  }
+  settings.setOptions({ memorizationTime });
+});
+
+$("#resetSettingsBtn").on("click", (event) => {
+  event.preventDefault();
+  $("#normalDifficulty").prop("checked", true);
+  $("#disableLimitedAttempts").prop("checked", true);
+  $("#numAttempts").val("").prop("disabled", true);
+  $("#memorizationTime").val(1500);
+  settings.reset();
+});
+
+$("#saveSettingsBtn").on("click", (event) => {
+  event.preventDefault();
+  $("#settingsModal").toggleClass("hidden");
+});
+
+$("#backToStartBtn").on("click", () => {
+  let confirmed = confirm("Are you sure you want to go back? All current game progress will be lost.");
+  if (confirmed) {
+    state.reset();
+    clearGame();
+    showStart();
+  }
+});
+
+$("#newGameBtn").on("click", () => {
+  let confirmed = confirm("Are you sure you want to start a new game? All current game progress will be lost.");
+  if (confirmed) {
+    state.reset();
+    clearGame();
+    showGame();
+    game(state, settings);
+  }
+});
+
+$("#startForm").on("submit", (event) => {
+  event.preventDefault();
+  clearStart();
+  game(state, settings);
+});
