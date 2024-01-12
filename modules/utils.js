@@ -13,6 +13,16 @@ const emojiUnicodeRanges = [
   [0x1f680, 0x1f6ff],
   [0x2600, 0x26ff],
 ];
+
+// Source: https://stackoverflow.com/questions/45576748/how-can-i-detect-rendering-support-for-emoji-in-javascript
+const isEmojiSupported = (index) => {
+  let e = String.fromCodePoint(index);
+  const ctx = document.createElement("canvas").getContext("2d");
+  ctx.canvas.width = ctx.canvas.height = 1;
+  ctx.fillText(e, -4, 4);
+  return ctx.getImageData(0, 0, 1, 1).data[3] > 0; // Not a transparent pixel
+};
+
 const EMOJIS = emojiUnicodeRanges
   .map(([lower, upper]) => Array.from({ length: upper - lower + 1 }, (_, i) => String.fromCodePoint(lower + i)))
   .flat();
@@ -23,7 +33,7 @@ function randomEmojis(numEmojis) {
   while (randomIndices.length < numEmojis * 2) {
     const randomIndex = Math.floor(Math.random() * EMOJIS.length);
 
-    if (!randomIndices.includes(randomIndex)) {
+    if (!randomIndices.includes(randomIndex) && isEmojiSupported(randomIndex)) {
       // Push index twice since the emoji will appear in the board twice
       randomIndices.push(randomIndex, randomIndex);
     }

@@ -150,6 +150,7 @@ $("#closeCurtainMenuIcon").on("click", () => {
 
 $("#startForm").on("submit", (event) => {
   event.preventDefault();
-  clearStart();
-  game(state, settings);
+  if (game(state, settings)) {
+    clearStart();
+  }
 });

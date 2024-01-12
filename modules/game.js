@@ -101,7 +101,7 @@ function updateStats(state, settings) {
 function game(state, settings) {
   if (settings.invalidDimensions()) {
     alert("Atleast one of the dimensions must be even.");
-    return;
+    return false;
   }
 
   createStats(settings);
@@ -140,6 +140,8 @@ function game(state, settings) {
   });
 
   showGame();
+
+  return true;
 }
 
 export { game, clearStart, showStart, clearGame, showGame };
