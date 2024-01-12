@@ -169,8 +169,11 @@
       </nav>
       <main class="h-4/5">
         <div id="gameContainer" class="flex flex-col justify-center fade-in">
-          <div id="remainingTriesContainer" class="text-lg mt-8 ml-8">
-            Remaining misses: <span id="remainingTries"></span>
+          <div id="statsContainer" class="text-lg space-x-5 mt-8 ml-8">
+            <i class="fa fa-arrows-alt text-xl" aria-hidden="true"></i>
+            <span>Number of guesses: <span id="numGuesses"></span></span>
+            <span>Misses: <span id="numMisses"></span></span>
+            <span id="remainingMissesContainer">Remaining misses: <span id="remainingMisses"></span></span>
           </div>
           <div id="gridContainer" class="mx-auto p-8">
             <table id="board"></table>

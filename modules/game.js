@@ -82,19 +82,27 @@ function showLoss() {
   });
 }
 
-function createStats(settings) {
-  $("#remainingTries").text(settings.getNumAttempts());
+function createStats(state, settings) {
+  $("#numGuesses").text(state.getNumGuesses());
+  $("#numMisses").text(state.getNumWrongGuesses());
+
   if (settings.limitedAttempts()) {
-    $("#remainingTriesContainer").removeClass("invisible");
+    $("#remainingMisses").text(settings.getNumAttempts());
+    $("#remainingMissesContainer").removeClass("hidden");
   } else {
-    $("#remainingTriesContainer").addClass("invisible");
+    $("#remainingMissesContainer").addClass("hidden");
   }
 }
 
 function updateStats(state, settings) {
+  let numGuesses = state.getNumGuesses();
+  let numMisses = state.getNumWrongGuesses();
+  $("#numGuesses").text(numGuesses);
+  $("#numMisses").text(numMisses);
+
   if (settings.limitedAttempts()) {
-    let remaining = Math.max(0, settings.getNumAttempts() - state.getNumWrongGuesses());
-    $("#remainingTries").text(remaining);
+    let remainingMisses = Math.max(0, settings.getNumAttempts() - state.getNumWrongGuesses());
+    $("#remainingMisses").text(remainingMisses);
   }
 }
 
@@ -104,7 +112,7 @@ function game(state, settings) {
     return false;
   }
 
-  createStats(settings);
+  createStats(state, settings);
   createBoard(state, settings);
 
   // Emoji card click handler
