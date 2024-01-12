@@ -1,34 +1,15 @@
-:root {
-  --bg-dark: #212427;
-  --bg-light: #faf9f6;
-}
-
 html,
 body {
   height: 100%;
   width: 100%;
-  background-color: var(--bg-light);
-}
-
-#settingsForm > div:nth-child(even),
-#startForm > div:nth-child(even) {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+  background-color: white;
 }
 
 input[type="radio"],
-input[type="checkbox"],
 input[type="submit"],
 input[type="reset"],
 i {
   cursor: pointer;
-}
-
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-  opacity: 1;
 }
 
 td {
@@ -96,8 +77,8 @@ td:hover {
 
 .modal-content {
   background-color: #fefefe;
-  margin: 7% auto;
-  padding: 1rem;
+  margin: 5% auto;
+  padding: 2rem;
   border: 1px solid #888;
   border-radius: 0.5rem;
   width: 70%;
@@ -105,10 +86,6 @@ td:hover {
 }
 
 @media (max-width: 648px) {
-  #settingsForm input[type="number"] {
-    width: 75%;
-  }
-
   .modal-content {
     width: 100%;
   }
