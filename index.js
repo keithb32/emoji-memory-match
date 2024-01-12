@@ -105,6 +105,17 @@ $("#backToStartBtn").on("click", () => {
   }
 });
 
+$("#backToStartBtnMobile").on("click", () => {
+  let confirmed = confirm("Are you sure you want to go back? All current game progress will be lost.");
+  if (confirmed) {
+    state.reset();
+    clearGame();
+    showStart();
+    $("#gameScreen").removeClass("overflow-hidden");
+    $("#curtainMenu").toggleClass("hidden");
+  }
+});
+
 $("#newGameBtn").on("click", () => {
   let confirmed = confirm("Are you sure you want to start a new game? All current game progress will be lost.");
   if (confirmed) {
@@ -113,6 +124,28 @@ $("#newGameBtn").on("click", () => {
     showGame();
     game(state, settings);
   }
+});
+
+$("#newGameBtnMobile").on("click", () => {
+  let confirmed = confirm("Are you sure you want to start a new game? All current game progress will be lost.");
+  if (confirmed) {
+    state.reset();
+    clearGame();
+    showGame();
+    game(state, settings);
+    $("#gameScreen").removeClass("overflow-hidden");
+    $("#curtainMenu").toggleClass("hidden");
+  }
+});
+
+$("#mobileGameNavBtn").on("click", () => {
+  $("#gameScreen").addClass("overflow-hidden");
+  $("#curtainMenu").toggleClass("hidden");
+});
+
+$("#closeCurtainMenuIcon").on("click", () => {
+  $("#gameScreen").removeClass("overflow-hidden");
+  $("#curtainMenu").toggleClass("hidden");
 });
 
 $("#startForm").on("submit", (event) => {
