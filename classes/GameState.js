@@ -5,6 +5,7 @@ class GameState {
     this.cardsById = {};
     this.revealed = [];
     this.matched = [];
+    this.zoom = 1;
   }
 
   reset() {
@@ -13,6 +14,7 @@ class GameState {
     this.cardsById = {};
     this.revealed = [];
     this.matched = [];
+    this.zoom = 1;
   }
 
   addCard(card) {
@@ -78,6 +80,24 @@ class GameState {
 
   getMatched() {
     return this.matched;
+  }
+
+  resetZoom() {
+    this.zoom = 1;
+  }
+
+  zoomIn() {
+    this.zoom += 0.1;
+  }
+
+  zoomOut() {
+    if (this.zoom - 0.1 > 0) {
+      this.zoom -= 0.1;
+    }
+  }
+
+  getZoom() {
+    return this.zoom;
   }
 }
 

@@ -154,3 +154,18 @@ $("#startForm").on("submit", (event) => {
     clearStart();
   }
 });
+
+$("#zoomOutBtn").on("click", () => {
+  state.zoomOut();
+  $("#board").css({ transform: "scale(" + state.getZoom() + ")", transformOrigin: "50% 0" });
+});
+
+$("#zoomInBtn").on("click", () => {
+  state.zoomIn();
+  $("#board").css({ transform: "scale(" + state.getZoom() + ")", transformOrigin: "50% 0" });
+});
+
+$("#resetZoomBtn").on("click", () => {
+  state.resetZoom();
+  $("#board").css({ transform: "scale(" + state.getZoom() + ")", transformOrigin: "50% 0" });
+});
