@@ -2,23 +2,13 @@ html,
 body {
   height: 100%;
   width: 100%;
-  background-color: white;
+  background-color: #fefefe;
 }
 
 input[type="radio"],
 input[type="submit"],
 input[type="reset"],
 i {
-  cursor: pointer;
-}
-
-td {
-  padding: 2rem;
-  border: 1.5px solid black;
-  font-size: 2rem;
-}
-
-td:hover {
   cursor: pointer;
 }
 
@@ -51,7 +41,7 @@ td:hover {
 }
 
 .card-front {
-  background-color: royalblue;
+  background-color: #7df9ff;
 }
 
 .card-back {
@@ -83,12 +73,6 @@ td:hover {
   border-radius: 0.5rem;
   width: 85%;
   animation: fadeIn 0.5s linear forwards;
-}
-
-@media (max-width: 648px) {
-  .modal-content {
-    width: 100%;
-  }
 }
 
 .fade-in {
@@ -126,7 +110,6 @@ td:hover {
   top: 0;
   overflow: hidden;
   text-align: center;
-
   background-color: black;
 }
 

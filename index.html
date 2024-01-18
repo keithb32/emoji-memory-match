@@ -5,12 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Emoji Memory Match</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js"
-      integrity="sha512-+k1pnlgt4F1H8L7t3z95o3/KO+o78INEcXTbnoJQ/F2VqDVhWoaiVml/OEHv9HsVgxUaVW+IbiZPUJQfF/YxZw=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js" integrity="sha512-+k1pnlgt4F1H8L7t3z95o3/KO+o78INEcXTbnoJQ/F2VqDVhWoaiVml/OEHv9HsVgxUaVW+IbiZPUJQfF/YxZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script type="module" src="modules/utils.js" defer></script>
     <script type="module" src="modules/game.js" defer></script>
     <script type="module" src="classes/GameState.js" defer></script>
@@ -33,7 +28,7 @@
         <div class="modal-content space-y-4">
           <i id="closeSettingsIcon" class="fa fa-times float-end text-2xl" aria-hidden="true"></i>
           <h1 class="text-center text-2xl font-semibold">Settings</h1>
-          <form id="settingsForm" class="grid grid-cols-1 sm:grid-cols-[60%_40%] gap-x-5 gap-y-4 mx-auto sm:w-4/5">
+          <form id="settingsForm" class="grid grid-cols-1 sm:grid-cols-[60%_40%] gap-x-1 gap-y-4 mx-auto sm:w-4/5">
             <div>
               <label class="text-lg font-semibold">Limit mismatches</label>
               <p class="text-sm">If enabled, selecting too many mismatched pairs will end the game.</p>
@@ -55,90 +50,45 @@
               <p class="text-sm">The number of mismatches allowed per game.</p>
             </div>
             <div>
-              <input
-                type="number"
-                id="numAttempts"
-                name="numAttempts"
-                min="1"
-                class="bg-gray-50 text-center border border-gray-400 p-2 rounded-lg shadow-lg disabled:bg-gray-200"
-              />
+              <input type="number" id="numAttempts" name="numAttempts" min="1" class="bg-gray-50 text-center border border-gray-400 p-2 rounded-lg shadow-lg disabled:bg-gray-200" />
             </div>
             <div>
               <label class="text-lg font-semibold">Memorization time</label>
               <p class="text-sm">The number of milliseconds before a revealed card flips over.</p>
             </div>
             <div>
-              <input
-                type="number"
-                id="memorizationTime"
-                name="memorizationTime"
-                min="1000"
-                step="100"
-                class="bg-gray-50 text-center border border-gray-400 p-2 rounded-lg shadow-lg"
-              />
+              <input type="number" id="memorizationTime" name="memorizationTime" min="1000" step="100" class="bg-gray-50 text-center border border-gray-400 p-2 rounded-lg shadow-lg" />
             </div>
           </form>
           <!-- Button container -->
           <div class="flex flex-row space-x-2 justify-end">
-            <input
-              type="reset"
-              id="resetSettingsBtn"
-              value="Reset"
-              class="bg-gray-100 border border-gray-400 text-gray-700 hover:bg-gray-300 px-4 py-1 rounded-lg shadow-md"
-            />
-            <input
-              type="submit"
-              id="saveSettingsBtn"
-              value="Save"
-              class="bg-gray-900 text-white hover:bg-gray-700 px-4 py-1 rounded-lg shadow-md"
-            />
+            <input type="reset" id="resetSettingsBtn" value="Reset" class="bg-gray-100 border border-gray-400 text-gray-700 hover:bg-gray-300 px-4 py-1 rounded-lg shadow-md" />
+            <input type="submit" id="saveSettingsBtn" value="Save" class="bg-gray-900 text-white hover:bg-gray-700 px-4 py-1 rounded-lg shadow-md" />
           </div>
         </div>
       </section>
 
-      <!-- Header -->
-      <header class="mt-4">
-        <p class="text-center text-4xl font-bold">Welcome to Emoji Memory Match!</p>
-      </header>
-
       <!-- Start Form -->
-      <main class="space-y-5 mx-auto mt-8 px-4">
-        <p class="text-center text-lg">Select the dimensions of your board to proceed.</p>
-        <form id="startForm" class="grid grid-cols-2 gap-y-3">
-          <div>
-            <label class="text-lg text-gray-700 font-medium leading-relaxed sm:leading-loose">Rows</label>
-          </div>
-          <div>
-            <input
-              type="number"
-              id="numRows"
-              name="numRows"
-              min="2"
-              step="1"
-              class="border border-gray-400 text-gray-900 text-center p-1 sm:p-2 rounded-lg shadow-md"
-            />
-          </div>
-          <div>
-            <label class="text-lg text-gray-700 font-medium leading-relaxed sm:leading-loose">Columns</label>
-          </div>
-          <div>
-            <input
-              type="number"
-              id="numCols"
-              name="numCols"
-              min="2"
-              step="1"
-              class="border border-gray-400 text-gray-900 text-center p-1 sm:p-2 rounded-lg shadow-md"
-            />
-          </div>
-          <button
-            type="submit"
-            id="startBtn"
-            class="bg-gray-900 col-span-2 w-1/2 mx-auto mt-4 hover:bg-gray-800 hover:shadow-md focus:bg-gray-800 rounded-md text-white py-2"
-          >
-            Start game
-          </button>
-        </form>
+      <main class="m-auto">
+        <div class="space-y-5 -mt-32">
+          <p class="text-center text-4xl font-bold">Welcome to Emoji Memory Match!</p>
+          <p class="text-center text-lg">Select the dimensions of your board to proceed.</p>
+          <form id="startForm" class="grid grid-cols-2 gap-y-3 w-fit mx-auto">
+            <div>
+              <label class="text-lg text-gray-700 font-medium leading-relaxed sm:leading-loose">Rows</label>
+            </div>
+            <div>
+              <input type="number" id="numRows" name="numRows" min="2" step="1" class="border border-gray-400 text-gray-900 text-center p-1 sm:p-2 rounded-lg shadow-md" />
+            </div>
+            <div>
+              <label class="text-lg text-gray-700 font-medium leading-relaxed sm:leading-loose">Columns</label>
+            </div>
+            <div>
+              <input type="number" id="numCols" name="numCols" min="2" step="1" class="border border-gray-400 text-gray-900 text-center p-1 sm:p-2 rounded-lg shadow-md" />
+            </div>
+            <button type="submit" id="startBtn" class="bg-gray-900 col-span-2 w-1/2 mx-auto mt-4 hover:bg-gray-800 hover:shadow-md focus:bg-gray-800 rounded-md text-white py-2">Start game</button>
+          </form>
+        </div>
       </main>
     </div>
 
@@ -167,23 +117,22 @@
           <span class="float-left">New Game &nbsp;</span>
         </i>
       </nav>
+      <hr class="my-3" />
       <main class="h-4/5">
-        <div id="gameContainer" class="flex flex-col justify-center fade-in">
-          <div id="statsContainer" class="flex text-lg sm:flex-row sm:space-x-5 mt-4">
-            <div class="sm:space-x-5">
+        <div id="gameContainer" class="flex flex-col h-full justify-center fade-in">
+          <div id="statsContainer" class="flex flex-wrap space-y-1 justify-between sm:justify-normal text-lg sm:flex-row sm:space-x-5 sm:space-y-0 mt-4">
+            <div class="space-x-5">
               <span><i id="zoomOutBtn" class="fa fa-search-minus" aria-hidden="true"></i></span>
               <span><i id="zoomInBtn" class="fa fa-search-plus" aria-hidden="true"></i></span>
-              <span
-                id="resetZoomBtn"
-                class="bg-gray-100 border border-gray-400 text-gray-700 rounded-md px-1 w-fit cursor-pointer hover:bg-gray-300"
-                >Reset zoom</span
-              >
+              <span id="resetZoomBtn" class="bg-gray-100 border border-gray-400 text-gray-700 rounded-md px-1 w-fit cursor-pointer hover:bg-gray-200 active:bg-gray-300">Reset zoom</span>
             </div>
-            <span>Number of guesses: <span id="numGuesses"></span></span>
-            <span>Misses: <span id="numMisses"></span></span>
-            <span id="remainingMissesContainer">Remaining misses: <span id="remainingMisses"></span></span>
+            <div class="space-x-5">
+              <span>Number of guesses: <span id="numGuesses"></span></span>
+              <span>Misses: <span id="numMisses"></span></span>
+              <span id="remainingMissesContainer">Remaining misses: <span id="remainingMisses"></span></span>
+            </div>
           </div>
-          <div id="gridContainer" class="mx-auto p-8">
+          <div id="gridContainer" class="m-auto p-8">
             <table id="board"></table>
           </div>
         </div>
@@ -191,17 +140,11 @@
         <div id="resultsContainer" class="hidden h-full text-center p-8 md:p-24 fade-in">
           <div id="winContainer" class="space-y-3">
             <p class="font-light text-3xl">Congratulations! You won! 🎉</p>
-            <p class="font-light">
-              To go back to the start menu, click the back to start button. To start a new game with the same
-              dimensions, click the new game button.
-            </p>
+            <p class="font-light">To go back to the start menu, click the back to start button. To start a new game with the same dimensions, click the new game button.</p>
           </div>
           <div id="lossContainer" class="space-y-3">
             <p class="font-light text-3xl">Sorry! You lost ☹️</p>
-            <p class="font-light">
-              To go back to the start menu, click the back to start button. To start a new game with the same
-              dimensions, click the new game button.
-            </p>
+            <p class="font-light">To go back to the start menu, click the back to start button. To start a new game with the same dimensions, click the new game button.</p>
           </div>
         </div>
       </main>

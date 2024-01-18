@@ -7,7 +7,7 @@ class Card {
 
   toHtml() {
     return `
-    <td class="flipcard-container">
+    <td class="flipcard-container text-[2rem] p-[2rem] border border-[#888] hover:cursor-pointer">
         <div id=${this.id} class="flipcard">
             <div id=front-${this.id} class="card-face card-front">${this.front}</div>
             <div id=back-${this.id} class="card-face card-back">${this.back}</div>
